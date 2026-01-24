@@ -1,6 +1,6 @@
-# Restaurant Management App 🍽️
+# Restaurant System App 🍽️
 
-A mobile restaurant management application built using **Flutter** and **Firebase**.
+A mobile restaurant system application built using **Flutter** and **Firebase**.
 The app focuses on providing a clean user experience for browsing restaurant menus,
 while following scalable architecture and best practices.
 
