@@ -85,7 +85,7 @@ State management is handled using **Bloc (Cubit)**.
 
 ---
 
-📌 ##Notes
+## 📌 Notes
 
 This project represents a real-world Flutter application structure
 and demonstrates best practices in state management and architectu
