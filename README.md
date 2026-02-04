@@ -43,12 +43,11 @@ The app provides a complete restaurant browsing experience with real-time integr
 
 ### ⚙️ Technical Features
 
-* StreamBuilder with caching support
 * Offline Firestore persistence
 * Custom reusable widgets
 * Theme support
 * Responsive design using ScreenUtil
-
+* Arabic Supported
 ---
 
 ## 🛠 Tech Stack
