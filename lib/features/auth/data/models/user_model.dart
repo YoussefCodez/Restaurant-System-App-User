@@ -17,7 +17,7 @@ class UserModel extends Equatable {
     this.governorate,
   });
 
-  static const empty = UserModel(userId: "", name: "", email: "", phone: "", address: "", governorate: "");
+  static const empty = UserModel(userId: "", name: "", email: "", phone: "", address: "", governorate: "Cairo");
 
   UserModel copyWith({
     final String? userId,
