@@ -14,6 +14,9 @@ final class UserNameLoading extends UserNameState {}
 final class UserNameLoaded extends UserNameState {
   final String name;
   const UserNameLoaded({required this.name});
+
+  @override
+  List<Object> get props => [name];
 }
 
 final class UserNameError extends UserNameState {

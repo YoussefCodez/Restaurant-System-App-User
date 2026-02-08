@@ -75,10 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
       child: SafeArea(
-        child: Scaffold(
-          key: scaffoldKey,
+          child: Scaffold(
+            key: scaffoldKey,
           drawer: MyDrawer(),
           body: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               SliverList(
                 delegate: SliverChildListDelegate([
@@ -95,9 +96,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         Gap(16.h),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchScreen()));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SearchScreen(),
+                              ),
+                            );
                           },
-                          child: CustomTextField(controller: searchController , isEnabled: false, focusNode: focusNode,),
+                          child: CustomTextField(
+                            controller: searchController,
+                            isEnabled: false,
+                            focusNode: focusNode,
+                          ),
                         ),
                       ],
                     ),
@@ -128,11 +138,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       sliver: SliverGrid(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 16,
-                              crossAxisSpacing: 16,
-                              childAspectRatio: 0.7,
-                            ),
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 16,
+                                  crossAxisSpacing: 16,
+                                  childAspectRatio: 0.7,
+                                ),
                         delegate: SliverChildBuilderDelegate(
                           (context, index) => MenuSkeletonItem(),
                           childCount: 6,
@@ -162,14 +172,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       sliver: SliverGrid(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 16,
-                              crossAxisSpacing: 16,
-                              childAspectRatio: 0.6,
-                            ),
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 16,
+                                  crossAxisSpacing: 16,
+                                  childAspectRatio: 0.55,
+                                ),
                         delegate: SliverChildBuilderDelegate(
-                          (context, index) =>
-                              Menu(menuModel: state.menu[index]),
+                          (context, index) => Menu(menuModel: state.menu[index]),
                           childCount: state.menu.length,
                         ),
                       ),

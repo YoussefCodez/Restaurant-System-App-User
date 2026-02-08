@@ -7,7 +7,7 @@ class CustomLeadingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back_ios_new_outlined, size: 20.sp),
+      icon: Icon(Icons.arrow_back_ios_new_outlined, size: 20.sp, color: Theme.of(context).colorScheme.onSecondaryContainer,),
       onPressed: () {
         onPressed();
       },

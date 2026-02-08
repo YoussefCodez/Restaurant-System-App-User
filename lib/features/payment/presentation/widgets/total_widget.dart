@@ -23,7 +23,7 @@ class TotalWidget extends StatelessWidget {
         Text(
           "${context.read<TotalPriceCubit>().state} ${StringsManager.egp}",
           style: TextStyle(
-            fontSize: 30.sp,
+            fontSize: 22.sp,
             fontWeight: .w500,
             color: Theme.of(context).colorScheme.onSecondaryContainer,
           ),

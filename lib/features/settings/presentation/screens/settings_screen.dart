@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:restaurant/core/theme/color_manager.dart';
+import 'package:restaurant/core/utils/responsive/device_utils.dart';
 import 'package:restaurant/core/widgets/custom_edit_button.dart';
 import 'package:restaurant/core/widgets/custom_leading_button.dart';
 import 'package:restaurant/core/widgets/sign_out_button.dart';
@@ -12,6 +13,7 @@ import 'package:restaurant/features/settings/logic/cubit/active_dark_mode_cubit.
 import 'package:restaurant/features/settings/logic/cubit/edit_profile_cubit.dart';
 import 'package:restaurant/core/utils/constants/strings_manager.dart';
 import 'package:restaurant/features/settings/presentation/widgets/user_info.dart';
+import 'package:restaurant/core/widgets/my_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -55,7 +57,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         title: Text(
           StringsManager.settings,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: .bold,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
         ),
         actions: [
           BlocBuilder<EditProfileCubit, bool>(
@@ -118,7 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ],
             ),
-            Gap(10.h),
+            Gap(DeviceUtils.isTablet(context) ? 30.h : 10.h),
             Row(
               mainAxisAlignment: .spaceBetween,
               children: [
@@ -158,19 +164,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       splashColor: Colors.transparent,
                       onPressed: () {
                         if (_usernameController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                StringsManager.usernameCanNotBeEmpty,
-                              ),
+                          showDialog(
+                            context: context,
+                            builder: (context) => myDialog(
+                              message: StringsManager.usernameCanNotBeEmpty,
                             ),
                           );
                         } else if (_usernameController.text.length > 20) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                StringsManager.usernameCanNotBeLong,
-                              ),
+                          showDialog(
+                            context: context,
+                            builder: (context) => myDialog(
+                              message: StringsManager.usernameCanNotBeLong,
                             ),
                           );
                         } else {
@@ -186,8 +190,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }
                       },
                       child: Icon(
-                        edit ? Icons.check : Icons.edit,
+                        Icons.check,
                         color: Colors.white,
+                        size: 22.sp,
                       ),
                     )
                   : const SizedBox.shrink();

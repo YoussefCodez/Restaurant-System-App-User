@@ -12,6 +12,7 @@ import 'package:restaurant/features/auth/data/repositories/firebase_user_repo.da
 import 'package:restaurant/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:restaurant/features/auth/presentation/screens/Login/login_screen.dart';
 import 'package:restaurant/core/widgets/custom_field.dart';
+import 'package:restaurant/core/widgets/my_dialog.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -133,9 +134,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         BlocConsumer<AuthCubit, AuthState>(
                           listener: (context, state) {
                             if (state is AuthResetEmailSent) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(StringsManager.resetEmailSent),
+                              showDialog(
+                                context: context,
+                                builder: (context) => myDialog(
+                                  message: StringsManager.resetEmailSent,
                                 ),
                               );
                               Navigator.pushReplacement(
@@ -143,6 +145,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 MaterialPageRoute(
                                   builder: (_) => LoginScreen(),
                                 ),
+                              );
+                            } else if (state is AuthError) {
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    myDialog(message: state.message),
                               );
                             }
                           },

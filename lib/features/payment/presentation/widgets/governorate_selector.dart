@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:restaurant/core/theme/color_manager.dart';
+import 'package:restaurant/core/services/hive_service.dart';
 import 'package:restaurant/features/payment/logic/cubit/location_cubit.dart';
 
 class GovernorateSelector extends StatefulWidget {
@@ -29,18 +29,22 @@ class _GovernorateSelectorState extends State<GovernorateSelector> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: .spaceBetween,
       children: [
-        Text(
-          "Governorate",
-          style: TextStyle(
-            fontSize: 22.sp,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSecondaryContainer,
-          ),
+        Row(
+          children: [
+            Text(
+              "Governorate",
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: .bold,
+                color: Theme.of(context).colorScheme.onSecondaryContainer,
+              ),
+            ),
+            Gap(16.w),
+            Icon(Icons.location_on, color: ColorsManager.primary, size: 24.sp),
+          ],
         ),
-        Gap(16.w),
-        Icon(Icons.location_on, color: ColorsManager.primary),
-        const Spacer(),
         BlocBuilder<LocationCubit, String>(
           builder: (context, state) {
             return DropdownButton(
@@ -50,11 +54,19 @@ class _GovernorateSelectorState extends State<GovernorateSelector> {
               items: widget.locations.map((location) {
                 return DropdownMenuItem(
                   value: location,
-                  child: Text(location),
+                  child: Text(
+                    location,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      color: ColorsManager.primary,
+                      fontWeight: .bold
+                    ),
+                  ),
                 );
               }).toList(),
               onChanged: (value) {
                 context.read<LocationCubit>().setLocation(value!);
+                HiveService().cacheUserGovernorate(value);
               },
             );
           },

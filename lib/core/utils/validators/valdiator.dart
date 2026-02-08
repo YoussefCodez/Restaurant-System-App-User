@@ -18,6 +18,7 @@ abstract class Valdiator {
     if (value.length > 20) {
       return StringsManager.nameLong;
     }
+    return null;
   };
   static FormFieldValidator<String?> passValidator = (value) {
     if (value == null || value.trim().isEmpty) {

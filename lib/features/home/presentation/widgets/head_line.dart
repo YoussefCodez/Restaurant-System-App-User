@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:restaurant/features/auth/logic/cubit/user_name_cubit.dart';
+import 'package:restaurant/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:restaurant/core/utils/constants/strings_manager.dart';
 
 class HeadLine extends StatelessWidget {
@@ -9,17 +9,11 @@ class HeadLine extends StatelessWidget {
   final ColorScheme color;
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<UserNameCubit, UserNameState, String?>(
-      selector: (state) {
-        if (state is UserNameLoaded) {
-          return state.name;
-        }
-        return null;
-      },
-      builder: (context, name) {
-        if (name != null) {
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is UserLoaded) {
           return Text(
-            "${StringsManager.hello}, $name",
+            "${StringsManager.hello}, ${state.user.name[0].toUpperCase() + state.user.name.substring(1)}",
             style: TextStyle(
               color: color.onSecondaryContainer,
               fontSize: 22.sp,

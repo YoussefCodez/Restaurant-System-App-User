@@ -49,10 +49,12 @@ class FirebaseUserRepo implements UserRepository {
   }
 
   Future<void> signOut() async {
+    await GoogleSignIn().signOut();
     await _firebaseAuth.signOut();
   }
 
   Future<bool> signInWithGoogle() async {
+    await GoogleSignIn().signOut();
     final user = await GoogleSignIn().signIn();
     GoogleSignInAuthentication userAuth = await user!.authentication;
     var credential = GoogleAuthProvider.credential(
@@ -64,7 +66,10 @@ class FirebaseUserRepo implements UserRepository {
       await usersCollection.doc(_firebaseAuth.currentUser!.uid).set({
         "name": _firebaseAuth.currentUser?.displayName,
         "email": _firebaseAuth.currentUser?.email,
-        "lastLogin": Timestamp.now(),
+        "userId": _firebaseAuth.currentUser!.uid,
+        "phone": "",
+        "address": "",
+        "governorate": "Cairo",
       }, SetOptions(merge: true));
     }
     return _firebaseAuth.currentUser != null;
@@ -74,6 +79,10 @@ class FirebaseUserRepo implements UserRepository {
   Future<void> setUserData(UserModel user) async {
     try {
       await usersCollection.doc(user.userId).set(user.toEntity().toDocument());
+      await HiveService().cacheUserName(user.name);
+      await HiveService().cacheUserAddress(user.address ?? "");
+      await HiveService().cacheUserPhone(user.phone ?? "");
+      await HiveService().cacheUserGovernorate(user.governorate ?? "");
     } catch (e) {
       print(e.toString());
       rethrow;
@@ -84,13 +93,23 @@ class FirebaseUserRepo implements UserRepository {
   Future<UserModel> getUserData(String uid) async {
     try {
       final doc = await usersCollection.doc(uid).get();
-      await HiveService().cacheUserName(UserModel.fromEntity(MyUserEntity.fromDocument(doc.data()!)).name);
-      return UserModel.fromEntity(MyUserEntity.fromDocument(doc.data()!));
+      if (doc.exists && doc.data() != null) {
+        final user = UserModel.fromEntity(
+          MyUserEntity.fromDocument(doc.data()!),
+        );
+        await HiveService().cacheUserName(user.name);
+        await HiveService().cacheUserAddress(user.address ?? "");
+        await HiveService().cacheUserPhone(user.phone ?? "");
+        await HiveService().cacheUserGovernorate(user.governorate ?? "");
+        return user;
+      }
+      return UserModel.empty;
     } catch (e) {
       print(e.toString());
       rethrow;
     }
   }
+
   @override
   Future<String> getUserName(String uid) async {
     try {
@@ -100,7 +119,9 @@ class FirebaseUserRepo implements UserRepository {
       }
       final doc = await usersCollection.doc(uid).get();
       if (doc.exists && doc.data() != null) {
-        final user = UserModel.fromEntity(MyUserEntity.fromDocument(doc.data()!));
+        final user = UserModel.fromEntity(
+          MyUserEntity.fromDocument(doc.data()!),
+        );
         await HiveService().cacheUserName(user.name);
         return user.name;
       }

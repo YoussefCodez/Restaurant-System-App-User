@@ -14,9 +14,13 @@ final class MenuLoading extends MenuState {}
 final class MenuSuccess extends MenuState {
   final List<MenuModel> menu;
   const MenuSuccess({required this.menu});
+  @override
+  List<Object> get props => [menu];
 }
 
 final class MenuError extends MenuState {
   final String message;
   const MenuError({required this.message});
+  @override
+  List<Object> get props => [message];
 }

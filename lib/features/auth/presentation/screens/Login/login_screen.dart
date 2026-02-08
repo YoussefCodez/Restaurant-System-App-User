@@ -17,6 +17,7 @@ import 'package:restaurant/features/auth/presentation/widgets/custom_checkbox.da
 import 'package:restaurant/core/widgets/custom_field.dart';
 import 'package:restaurant/core/widgets/custom_field_text.dart';
 import 'package:restaurant/features/home/presentation/screens/home_screen.dart';
+import 'package:restaurant/core/widgets/my_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -99,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
               flex: 5,
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(24.r),
+                padding: EdgeInsets.only(left: 24.r, right: 24.r, top: 24.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -173,13 +174,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (state is AuthLoggedIn) {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (_) => HomeScreen(),
-                                ),
+                                MaterialPageRoute(builder: (_) => HomeScreen()),
                               );
                             } else if (state is AuthError) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(state.message)),
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    myDialog(message: state.message),
                               );
                             }
                           },
@@ -260,8 +261,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 MaterialPageRoute(builder: (_) => HomeScreen()),
                               );
                             } else if (state is AuthError) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(state.message)),
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    myDialog(message: state.message),
                               );
                             }
                           },
@@ -280,19 +283,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                             .read<AuthCubit>()
                                             .signInWithGoogle();
                                       },
-                                      child: Container(
-                                        padding: EdgeInsets.all(10.r),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red,
-                                          borderRadius: BorderRadius.circular(
-                                            50.r,
-                                          ),
-                                        ),
-                                        child: Icon(
-                                          Icons.email,
-                                          size: 30.w,
-                                          color: Colors.white,
-                                        ),
+                                      child: SvgPicture.asset(
+                                        "assets/svg/googleIcon.svg",
+                                        width: 30.w,
                                       ),
                                     ),
                                   );

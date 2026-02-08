@@ -1,5 +1,6 @@
-import 'package:restaurant/features/payment/data/order_item_model.dart';
+import 'package:restaurant/features/payment/data/models/order_model.dart';
 
 abstract class OrderRepo {
-  Future<void> placeOrder(List<OrderItemModel> items , String userId);
+  Future<void> placeOrder(OrderModel order);
+  Stream<List<OrderModel>> getOrders(String userId);
 }

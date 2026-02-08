@@ -26,7 +26,11 @@ class PaymentScreen extends StatelessWidget {
         ),
         title: Text(
           StringsManager.payment,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
         ),
       ),
       body: Padding(

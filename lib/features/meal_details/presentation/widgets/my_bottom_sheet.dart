@@ -55,14 +55,15 @@ class MyBottomSheet extends StatelessWidget {
                 menuModel.categoryId,
                 sizeIndex,
               );
-              final totalPrice = (menuModel.price! + sizePrice) * count;
+              final discountedPrice = menuModel.hasDiscount ? menuModel.price! * (1 - menuModel.discount! / 100) : menuModel.price!;
+              final totalPrice = (discountedPrice + sizePrice) * count;
               final size = menuModel.categoryId == "burger" ? sizeIndex == 0 ? "Single" : "Double" : menuModel.categoryId == "pizza" ? sizeIndex == 0 ? "Small" : sizeIndex == 1 ? "Medium" : "Large" : "";
               final item = CartItemModel(
                 id: menuModel.id,
                 type: menuModel.categoryId,
                 name: menuModel.name,
                 image: menuModel.image,
-                price: menuModel.price,
+                price: totalPrice,
                 size: size,
                 quantity: count,
                 spicey: spiceyIndex,

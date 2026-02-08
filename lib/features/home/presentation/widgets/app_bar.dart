@@ -58,8 +58,10 @@ class AppBarWidget extends StatelessWidget {
                 children: [
                   Text(
                     HiveService().getCachedUserGovernorate() != null &&
-                            HiveService().getCachedUserAddress() != null
-                        ? "${HiveService().getCachedUserGovernorate()} , ${HiveService().getCachedUserAddress()!.substring(0, 15)}"
+                            HiveService().getCachedUserAddress() != null &&
+                            HiveService().getCachedUserAddress()!.isNotEmpty &&
+                            HiveService().getCachedUserGovernorate()!.isNotEmpty
+                        ? "${HiveService().getCachedUserGovernorate()} , ${HiveService().getCachedUserAddress()!.substring(0, HiveService().getCachedUserAddress()!.length > 10 ? 10 : HiveService().getCachedUserAddress()!.length)}"
                         : "Location",
                     overflow: .ellipsis,
                     style: TextStyle(

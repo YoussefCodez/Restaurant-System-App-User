@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:restaurant/core/utils/constants/strings_manager.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:restaurant/features/auth/data/entities/user_entity.dart';
 import 'package:restaurant/features/auth/data/models/user_model.dart';
 import 'package:restaurant/features/auth/data/repositories/user_repo.dart';
 
@@ -21,7 +19,7 @@ class AuthCubit extends Cubit<AuthState> {
       await userRepository.setUserData(newUser);
       emit(AuthSuccess(user: newUser));
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _handleAuthException(e)));
     }
   }
 
@@ -30,16 +28,10 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await userRepository.signIn(email, password);
       final String userId = FirebaseAuth.instance.currentUser!.uid;
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get();
-      final user = UserModel.fromEntity(
-        MyUserEntity.fromDocument(userDoc.data()!),
-      );
+      await userRepository.getUserData(userId);
       emit(AuthLoggedIn());
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _handleAuthException(e)));
     }
   }
 
@@ -49,12 +41,12 @@ class AuthCubit extends Cubit<AuthState> {
       await userRepository.signOut();
       emit(AuthSignedOut());
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _handleAuthException(e)));
     }
   }
 
   Future signInWithGoogle() async {
-    emit(AuthLoading());
+    emit(AuthGoogleLoading());
     try {
       final user = await GoogleSignIn().signIn();
       if (user == null) {
@@ -63,12 +55,14 @@ class AuthCubit extends Cubit<AuthState> {
       }
       final bool success = await userRepository.signInWithGoogle();
       if (success) {
+        final String userId = FirebaseAuth.instance.currentUser!.uid;
+        await userRepository.getUserData(userId);
         emit(AuthLoggedIn());
       } else {
         emit(AuthError(message: StringsManager.googleSignInFailed));
       }
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _handleAuthException(e)));
       print(e.toString());
     }
   }
@@ -79,7 +73,7 @@ class AuthCubit extends Cubit<AuthState> {
       await userRepository.forgotPassword(email);
       emit(AuthResetEmailSent());
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _handleAuthException(e)));
     }
   }
 
@@ -90,7 +84,7 @@ class AuthCubit extends Cubit<AuthState> {
       final user = await userRepository.getUserData(uid);
       emit(UserLoaded(user: user));
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _handleAuthException(e)));
     }
   }
 
@@ -100,11 +94,37 @@ class AuthCubit extends Cubit<AuthState> {
       await userRepository.setUserData(user);
       emit(UserLoaded(user: user));
     } catch (e) {
-      emit(AuthError(message: e.toString()));
+      emit(AuthError(message: _handleAuthException(e)));
     }
   }
 
   Stream listenToAuthChanges() {
     return userRepository.user;
+  }
+
+  String _handleAuthException(Object e) {
+    if (e is FirebaseAuthException) {
+      switch (e.code) {
+        case 'user-not-found':
+          return StringsManager.userNotFound;
+        case 'wrong-password':
+          return StringsManager.wrongPassword;
+        case 'email-already-in-use':
+          return StringsManager.emailAlreadyInUse;
+        case 'weak-password':
+          return StringsManager.weakPassword;
+        case 'network-request-failed':
+          return StringsManager.networkRequestFailed;
+        case 'too-many-requests':
+          return StringsManager.tooManyRequests;
+        case 'user-disabled':
+          return StringsManager.userDisabled;
+        case 'invalid-email':
+          return StringsManager.invalidEmailFormat;
+        default:
+          return e.message ?? StringsManager.unknownError;
+      }
+    }
+    return StringsManager.unknownError;
   }
 }

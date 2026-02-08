@@ -25,7 +25,7 @@ class CustomEditButton extends StatelessWidget {
             color: color,
             decorationColor: color,
             decoration: .underline,
-            fontSize: 16.sp,
+            fontSize: 12.sp,
             fontWeight: .w300,
           ),
         ),

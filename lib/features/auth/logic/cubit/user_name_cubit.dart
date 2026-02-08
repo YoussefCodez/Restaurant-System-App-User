@@ -16,4 +16,8 @@ class UserNameCubit extends Cubit<UserNameState> {
       emit(UserNameError(error: e.toString()));
     }
   }
+
+  void updateUserName(String name) {
+    emit(UserNameLoaded(name: name));
+  }
 }

@@ -125,7 +125,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => LoginScreen(),
+                                    builder: (_) => const LoginScreen(),
                                   ),
                                 );
                               } else {
@@ -143,10 +143,11 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                           Gap(5.h),
                           TextButton(
                             onPressed: () {
+                              context.read<OnceBoardCubit>().finishOnBoarding();
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => LoginScreen(),
+                                  builder: (_) => const LoginScreen(),
                                 ),
                               );
                             },

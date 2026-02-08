@@ -37,7 +37,11 @@ class _CartScreenState extends State<CartScreen> {
         ),
         title: Text(
           StringsManager.cart,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
         ),
         actions: [
           BlocBuilder<EditModeCubit, bool>(

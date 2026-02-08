@@ -13,8 +13,10 @@ import 'package:skeletonizer/skeletonizer.dart';
 class Menu extends StatelessWidget {
   const Menu({super.key, required this.menuModel});
   final MenuModel menuModel;
+  
   @override
   Widget build(BuildContext context) {
+    var totalPrice = menuModel.price! * (1 - menuModel.discount! / 100);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -45,7 +47,7 @@ class Menu extends StatelessWidget {
                         Skeletonizer(child: Container(color: Colors.grey)),
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
-                    fit: DeviceUtils.isTablet(context) ? .contain : .cover,
+                    fit: .contain,
                     width: DeviceUtils.isTablet(context) ? 220.w : 150.w,
                     height: DeviceUtils.isTablet(context) ? 220.h : 150.h,
                   ),
@@ -77,12 +79,13 @@ class Menu extends StatelessWidget {
                     ),
                   ),
                   Gap(5.h),
-                  Row(
+                  Column(
+                    crossAxisAlignment: .start,
                     children: [
                       Text(
                         "${menuModel.price} ${StringsManager.egp}",
                         style: TextStyle(
-                          fontSize: menuModel.hasDiscount ? 14.sp : 16.sp,
+                          fontSize: menuModel.hasDiscount ? 12.sp : 16.sp,
                           color: Colors.black,
                           decoration: menuModel.hasDiscount
                               ? .lineThrough
@@ -91,11 +94,10 @@ class Menu extends StatelessWidget {
                         ),
                       ),
                       if (menuModel.hasDiscount) ...[
-                        Gap(7.w),
                         Text(
-                          "${menuModel.price! * (1 - menuModel.discount! / 100)}",
+                          "${totalPrice % 2 == 0 ? totalPrice.toInt() : totalPrice} ${StringsManager.egp}",
                           style: TextStyle(
-                            fontSize: 16.sp,
+                            fontSize: 14.sp,
                             color: Colors.black,
                             fontWeight: .w700,
                           ),

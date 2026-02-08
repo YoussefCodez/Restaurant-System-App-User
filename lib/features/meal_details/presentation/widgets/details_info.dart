@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
-import 'package:restaurant/core/theme/color_manager.dart';
 import 'package:restaurant/core/utils/responsive/device_utils.dart';
 
 

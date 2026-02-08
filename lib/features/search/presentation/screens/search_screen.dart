@@ -13,6 +13,7 @@ import 'package:restaurant/core/widgets/cart.dart';
 import 'package:restaurant/core/widgets/custom_leading_button.dart';
 import 'package:restaurant/core/widgets/custom_textField.dart';
 import 'package:restaurant/features/home/logic/cubit/menu_cubit.dart';
+import 'package:restaurant/features/meal_details/presentation/screens/meal_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -55,7 +56,11 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         title: Text(
           StringsManager.searchText,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: TextStyle(
+            fontSize: 18.sp,
+            fontWeight: .bold,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          )
         ),
         actions: [Cart(color: Theme.of(context).colorScheme)],
       ),
@@ -87,119 +92,132 @@ class _SearchScreenState extends State<SearchScreen> {
                         crossAxisCount: 2,
                         mainAxisSpacing: 16,
                         crossAxisSpacing: 16,
-                        childAspectRatio: 0.6,
+                        childAspectRatio: 0.5,
                       ),
                       itemBuilder: (context, index) {
-                        return Container(
-                          clipBehavior: .antiAlias,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.grey[200]!,
-                              width: 1,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Padding(
-                                  padding: EdgeInsets.all(10.r),
-                                  child: CachedNetworkImage(
-                                    imageUrl: state.menu[index].image,
-                                    placeholder: (context, url) => Center(
-                                      child: CupertinoActivityIndicator(),
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Center(child: Icon(Icons.error)),
-                                    fit: .contain,
-                                    width: DeviceUtils.isTablet(context)
-                                        ? 220.w
-                                        : 160.w,
-                                    height: DeviceUtils.isTablet(context)
-                                        ? 220.h
-                                        : 160.h,
-                                  ),
+                        var totalPrice = state.menu[index].price! * (1 - state.menu[index].discount! / 100);
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MealDetailsScreen(
+                                  menuModel: state.menu[index],
                                 ),
                               ),
-                              Container(
-                                color: Colors.grey[200],
-                                width: double.infinity,
-                                padding: EdgeInsets.all(8.r),
-                                child: Column(
-                                  crossAxisAlignment: .start,
-                                  children: [
-                                    Text(
-                                      state.menu[index].name,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 16.sp,
-                                        fontWeight: .bold,
+                            );
+                          },
+                          child: Container(
+                            clipBehavior: .antiAlias,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: Colors.grey[200]!,
+                                width: 1,
+                              ),
+                            ),
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(10.r),
+                                    child: CachedNetworkImage(
+                                      imageUrl: state.menu[index].image,
+                                      placeholder: (context, url) => Center(
+                                        child: CupertinoActivityIndicator(),
                                       ),
+                                      errorWidget: (context, url, error) =>
+                                          Center(child: Icon(Icons.error)),
+                                      fit: .contain,
+                                      width: DeviceUtils.isTablet(context)
+                                          ? 220.w
+                                          : 160.w,
+                                      height: DeviceUtils.isTablet(context)
+                                          ? 220.h
+                                          : 160.h,
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "${state.menu[index].price} ${StringsManager.egp}",
-                                          style: TextStyle(
-                                            fontSize:
-                                                state.menu[index].hasDiscount
-                                                ? 14.sp
-                                                : 16.sp,
-                                            color: Colors.black,
-                                            decoration:
-                                                state.menu[index].hasDiscount
-                                                ? .lineThrough
-                                                : .none,
-                                            fontWeight:
-                                                state.menu[index].hasDiscount
-                                                ? .w100
-                                                : .w700,
-                                          ),
+                                  ),
+                                ),
+                                Container(
+                                  color: Colors.grey[200],
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(8.r),
+                                  child: Column(
+                                    crossAxisAlignment: .start,
+                                    children: [
+                                      Text(
+                                        state.menu[index].name,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16.sp,
+                                          fontWeight: .bold,
                                         ),
-                                        if (state.menu[index].hasDiscount) ...[
-                                          Gap(7.w),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: .start,
+                                        children: [
                                           Text(
-                                            "${state.menu[index].price! * (1 - state.menu[index].discount! / 100)}",
+                                            "${state.menu[index].price} ${StringsManager.egp}",
+                                            style: TextStyle(
+                                              fontSize:
+                                                  state.menu[index].hasDiscount
+                                                  ? 14.sp
+                                                  : 16.sp,
+                                              color: Colors.black,
+                                              decoration:
+                                                  state.menu[index].hasDiscount
+                                                  ? .lineThrough
+                                                  : .none,
+                                              fontWeight:
+                                                  state.menu[index].hasDiscount
+                                                  ? .w100
+                                                  : .w700,
+                                            ),
+                                          ),
+                                          if (state.menu[index].hasDiscount) ...[
+                                            Text(
+                                              "${totalPrice % 2 == 0 ? totalPrice.toInt() : totalPrice} ${StringsManager.egp}",
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: Colors.black,
+                                                fontWeight: .w700,
+                                              ),
+                                            ),
+                                          ],
+                                        ],
+                                      ),
+                                      Row(
+                                        crossAxisAlignment: .center,
+                                        children: [
+                                          Text(
+                                            state.menu[index].rate.toString(),
                                             style: TextStyle(
                                               fontSize: 16.sp,
                                               color: Colors.black,
-                                              fontWeight: .w700,
+                                              fontWeight: .bold,
+                                            ),
+                                          ),
+                                          Gap(7.w),
+                                          SvgPicture.asset(
+                                            AssetsManager.star,
+                                            width: DeviceUtils.isTablet(context)
+                                                ? 25.w
+                                                : 15.w,
+                                            height: DeviceUtils.isTablet(context)
+                                                ? 25.h
+                                                : 15.h,
+                                            colorFilter: ColorFilter.mode(
+                                              ColorsManager.primary,
+                                              BlendMode.srcIn,
                                             ),
                                           ),
                                         ],
-                                      ],
-                                    ),
-                                    Row(
-                                      crossAxisAlignment: .center,
-                                      children: [
-                                        Text(
-                                          state.menu[index].rate.toString(),
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                            color: Colors.black,
-                                            fontWeight: .bold,
-                                          ),
-                                        ),
-                                        Gap(7.w),
-                                        SvgPicture.asset(
-                                          AssetsManager.star,
-                                          width: DeviceUtils.isTablet(context)
-                                              ? 25.w
-                                              : 15.w,
-                                          height: DeviceUtils.isTablet(context)
-                                              ? 25.h
-                                              : 15.h,
-                                          colorFilter: ColorFilter.mode(
-                                            ColorsManager.primary,
-                                            BlendMode.srcIn,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },

@@ -13,6 +13,7 @@ import 'package:restaurant/features/auth/logic/cubit/auth_cubit.dart';
 import 'package:restaurant/features/auth/presentation/screens/Login/login_screen.dart';
 import 'package:restaurant/core/widgets/custom_field.dart';
 import 'package:restaurant/features/home/presentation/screens/home_screen.dart';
+import 'package:restaurant/core/widgets/my_dialog.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -158,8 +159,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               MaterialPageRoute(builder: (_) => HomeScreen()),
                             );
                           } else if (state is AuthError) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(state.message)),
+                            showDialog(
+                              context: context,
+                              builder: (context) =>
+                                  myDialog(message: state.message),
                             );
                           }
                         },

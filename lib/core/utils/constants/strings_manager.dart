@@ -111,4 +111,13 @@ abstract class StringsManager {
   static String get offers => "offers".tr();
   static String get orders => "orders".tr();
   static String get nothingToShow => "nothingToShow".tr();
+  static String get userNotFound => "userNotFound".tr();
+  static String get wrongPassword => "wrongPassword".tr();
+  static String get emailAlreadyInUse => "emailAlreadyInUse".tr();
+  static String get weakPassword => "weakPassword".tr();
+  static String get networkRequestFailed => "networkRequestFailed".tr();
+  static String get tooManyRequests => "tooManyRequests".tr();
+  static String get userDisabled => "userDisabled".tr();
+  static String get invalidEmailFormat => "invalidEmailFormat".tr();
+  static String get unknownError => "unknownError".tr();
 }

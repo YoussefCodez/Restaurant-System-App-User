@@ -33,11 +33,11 @@ class SplashScreen extends StatelessWidget {
                         stream: FirebaseAuth.instance.authStateChanges(),
                         builder: (context, snapshot) {
                           if (snapshot.hasData && isRemembered) {
-                            return HomeScreen();
-                          } else if (isOnBoarded || !isRemembered) {
-                            return LoginScreen();
+                            return const HomeScreen();
+                          } else if (!isOnBoarded) {
+                            return const onBoardingScreen();
                           } else {
-                            return onBoardingScreen();
+                            return const LoginScreen();
                           }
                         },
                       );

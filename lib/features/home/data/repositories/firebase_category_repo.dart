@@ -7,21 +7,15 @@ class FirebaseCategoryRepo implements CategoryRepo {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
-  Future<List<CategoryModel>> getCategory() async {
-    final cachedCategory = HiveService().getCachedCategory();
-    if (cachedCategory != null && cachedCategory.isNotEmpty) {
-      return cachedCategory.map((e) => CategoryModel.fromMap(e)).toList();
-    }
-    final snapshot = await firestore
-        .collection('categories')
-        .orderBy('order')
-        .get();
-    final categories = snapshot.docs
-        .map((doc) => CategoryModel.fromMap(doc.data(), doc.id))
-        .toList();
-    await HiveService().cacheCategory(
-      categories.map((e) => e.toMap()).toList(),
-    );
-    return categories;
+  Stream<List<CategoryModel>> getCategory() {
+    return firestore.collection('categories').orderBy('order').snapshots().map((
+      snapshot,
+    ) {
+      final categories = snapshot.docs
+          .map((doc) => CategoryModel.fromMap(doc.data(), doc.id))
+          .toList();
+      HiveService().cacheCategory(categories.map((e) => e.toMap()).toList());
+      return categories;
+    });
   }
 }

@@ -12,7 +12,28 @@
           "package_name": "com.example.restaurant"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "471672720430-a2hqoaeuefae8up8a6o70e5qeuj191f6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.restaurant",
+            "certificate_hash": "370c7cbae71b48ccd94a484a41ee94e08d972786"
+          }
+        },
+        {
+          "client_id": "471672720430-lmucjie469d895m1n6tftf1o82su3iao.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.restaurant",
+            "certificate_hash": "f01c9d02be4cdd452ccb43e5a59cb5755260137a"
+          }
+        },
+        {
+          "client_id": "471672720430-gvlu6q1o8tpthiq8unuge87bfg1t6a05.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDC2Qo-Dfnt8aKsjGkbvC-3gpnQHsJHq0s"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "471672720430-gvlu6q1o8tpthiq8unuge87bfg1t6a05.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "471672720430-smng9d5enmjpl3nelqdrjj6j3kmnmig1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.restaurant"
+              }
+            }
+          ]
         }
       }
     }

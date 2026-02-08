@@ -6,9 +6,12 @@ import 'package:restaurant/core/theme/app_theme.dart';
 import 'package:restaurant/features/add_card/logic/cubit/add_card_cubit.dart';
 import 'package:restaurant/features/auth/data/repositories/firebase_user_repo.dart';
 import 'package:restaurant/features/auth/logic/cubit/auth_cubit.dart';
+import 'package:restaurant/features/auth/logic/cubit/user_name_cubit.dart';
 import 'package:restaurant/features/cart/logic/cubit/cart_cubit.dart';
 import 'package:restaurant/features/cart/logic/cubit/edit_mode_cubit.dart';
+import 'package:restaurant/features/payment/data/repositories/firebase_order_repo.dart';
 import 'package:restaurant/features/payment/logic/cubit/credit_cards_cubit.dart';
+import 'package:restaurant/features/payment/logic/cubit/get_orders_cubit.dart';
 import 'package:restaurant/features/payment/logic/cubit/location_cubit.dart';
 import 'package:restaurant/features/payment/logic/cubit/order_cubit.dart';
 import 'package:restaurant/features/payment/logic/cubit/total_price_cubit.dart';
@@ -50,6 +53,12 @@ class MyApp extends StatelessWidget {
             BlocProvider(create: (context) => ActiveDarkModeCubit()),
             BlocProvider(create: (context) => LocationCubit()),
             BlocProvider(create: (context) => OrderCubit()),
+            BlocProvider(
+              create: (context) => GetOrdersCubit(FirebaseOrderRepo()),
+            ),
+            BlocProvider(
+              create: (context) => UserNameCubit(FirebaseUserRepo()),
+            ),
           ],
           child: BlocBuilder<ActiveDarkModeCubit, ThemeMode>(
             builder: (context, mode) {

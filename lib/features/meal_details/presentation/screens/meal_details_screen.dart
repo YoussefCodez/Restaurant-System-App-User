@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:restaurant/core/services/hive_service.dart';
 import 'package:restaurant/core/theme/color_manager.dart';
 import 'package:restaurant/core/utils/constants/strings_manager.dart';
 import 'package:restaurant/core/widgets/custom_text.dart';
@@ -52,7 +51,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
             CustomAppBar(menuModel: widget.menuModel),
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.r, vertical: 24.r),
+                padding: EdgeInsets.all(24.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -103,6 +102,7 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                       BlocBuilder<SizeCubit, int>(
                         builder: (context, state) {
                           return Row(
+                            mainAxisAlignment: .spaceAround,
                             children: [
                               Text(
                                 "${StringsManager.size.toUpperCase()} : ",
@@ -119,7 +119,6 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                                 },
                                 selected: state == 0,
                               ),
-                              Gap(10.w),
                               CustomButton(
                                 text: StringsManager.medium,
                                 onTap: () {
@@ -127,7 +126,6 @@ class _MealDetailsScreenState extends State<MealDetailsScreen> {
                                 },
                                 selected: state == 1,
                               ),
-                              Gap(10.w),
                               CustomButton(
                                 text: StringsManager.large,
                                 onTap: () {

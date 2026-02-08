@@ -7,28 +7,29 @@ class FirebaseMenuRepo implements MenuRepo {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
-  Future<List<MenuModel>> getMenuByCategory(String categoryId) async {
-    final snapshot = await firestore
+  Stream<List<MenuModel>> getMenuByCategory(String categoryId) {
+    return firestore
         .collection('menu')
         .where('categoryId', isEqualTo: categoryId)
-        .limit(10) // 🔥 Optimized: Limit results for recommendations
-        .get();
-    return snapshot.docs
-        .map((doc) => MenuModel.fromMap(doc.data(), doc.id))
-        .toList();
+        .limit(10)
+        .snapshots()
+        .map((snapshot) {
+          final menu = snapshot.docs
+              .map((doc) => MenuModel.fromMap(doc.data(), doc.id))
+              .toList();
+          HiveService().cacheMenu(menu.map((item) => item.toMap()).toList());
+          return menu;
+        });
   }
 
   @override
-  Future<List<MenuModel>> getMenu() async {
-    final cachedMenu = HiveService().getCachedMenu();
-    if (cachedMenu != null && cachedMenu.isNotEmpty) {
-      return cachedMenu.map((e) => MenuModel.fromMap(e, e['id'])).toList();
-    }
-    final snapshot = await firestore.collection('menu').get();
-    final menu = snapshot.docs
-        .map((doc) => MenuModel.fromMap(doc.data(), doc.id))
-        .toList();
-    await HiveService().cacheMenu(menu.map((item) => item.toMap()).toList());
-    return menu;
+  Stream<List<MenuModel>> getMenu() {
+    return firestore.collection('menu').orderBy('categoryId').snapshots().map((snapshot) {
+      final menu = snapshot.docs
+          .map((doc) => MenuModel.fromMap(doc.data(), doc.id))
+          .toList();
+      HiveService().cacheMenu(menu.map((item) => item.toMap()).toList());
+      return menu;
+    });
   }
 }

@@ -32,7 +32,8 @@ class PriceCountInfo extends StatelessWidget {
         double sizePrice = getSizePrice(menuModel.categoryId, sizeState);
         return BlocBuilder<CountCubit, int>(
           builder: (context, count) {
-            double totalPrice = (menuModel.price! + sizePrice) * count;
+            double discountedPrice = menuModel.hasDiscount ? menuModel.price! * (1 - menuModel.discount! / 100) : menuModel.price!;
+            double totalPrice = (discountedPrice + sizePrice) * count;
             return Row(
               mainAxisAlignment: .spaceBetween,
               children: [

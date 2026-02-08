@@ -30,7 +30,7 @@
     "alreadyHaveAcc": "لديك حساب بالفعل",
     "deliverTo": "التوصيل إلى",
     "search": "ابحث عن الأطباق، المطاعم",
-    "searchText" : "البحث",
+    "searchText": "البحث",
     "allCategories": "كل الفئات",
     "menu": "القائمة",
     "toAdd": "للإضافة",
@@ -106,7 +106,16 @@
     "payAndConfirm": "الدفع والتأكيد",
     "getStarted": "ابدأ الآن",
     "placeholderDes": "هذا نص تجريبي لوصف الوجبة وتفاصيلها",
-    "offers" : "العروض",
-    "nothingToShow" : "لا يوجد شئ للعرض",
-    "orders" : "الطلبات"
+    "offers": "العروض",
+    "nothingToShow": "لا يوجد شئ للعرض",
+    "orders": "الطلبات",
+    "userNotFound": "لم يتم العثور على مستخدم بهذا البريد الإلكتروني.",
+    "wrongPassword": "كلمة المرور غير صحيحة.",
+    "emailAlreadyInUse": "هذا البريد الإلكتروني مسجل بالفعل.",
+    "weakPassword": "كلمة المرور ضعيفة جداً.",
+    "networkRequestFailed": "فشل الاتصال بالشبكة، تأكد من اتصالك بالإنترنت.",
+    "tooManyRequests": "محاولات كثيرة جداً. حاول مرة أخرى لاحقاً.",
+    "userDisabled": "هذا الحساب معطل.",
+    "invalidEmailFormat": "صيغة البريد الإلكتروني غير صحيحة.",
+    "unknownError": "حدث خطأ غير معروف. يرجى المحاولة مرة أخرى."
 }

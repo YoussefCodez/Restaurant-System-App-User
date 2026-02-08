@@ -30,7 +30,7 @@
     "alreadyHaveAcc": "Already Have An Account",
     "deliverTo": "Deliver to",
     "search": "Search dishes, restaurants",
-    "searchText" : "Search",
+    "searchText": "Search",
     "allCategories": "All Categories",
     "menu": "The Menu",
     "toAdd": "To Add",
@@ -107,6 +107,15 @@
     "payAndConfirm": "Pay & Confirm",
     "getStarted": "Get Started",
     "offers": "Offers",
-    "nothingToShow" : "Nothing To Show",
-    "orders" : "Orders"
+    "nothingToShow": "Nothing To Show",
+    "orders": "Orders",
+    "userNotFound": "No user found for that email.",
+    "wrongPassword": "Wrong password provided for that user.",
+    "emailAlreadyInUse": "The account already exists for that email.",
+    "weakPassword": "The password provided is too weak.",
+    "networkRequestFailed": "Network error, please check your connection.",
+    "tooManyRequests": "Too many requests. Try again later.",
+    "userDisabled": "This user has been disabled.",
+    "invalidEmailFormat": "The email address is badly formatted.",
+    "unknownError": "An unknown error occurred. Please try again."
 }

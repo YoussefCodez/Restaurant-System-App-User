@@ -24,7 +24,11 @@ class FavouritesScreen extends StatelessWidget {
         ),
         title: Text(
           StringsManager.favourites,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: TextStyle(
+            fontSize: 22.sp,
+            fontWeight: .bold,
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
         ),
       ),
       body: CustomScrollView(

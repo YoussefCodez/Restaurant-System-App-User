@@ -78,8 +78,16 @@ class Category extends StatelessWidget {
                         child: Container(
                           margin: EdgeInsets.only(right: 7),
                           padding: EdgeInsets.only(
-                            left: context.locale.languageCode == 'ar' ? 8.w : category.order == 0 ? 0.w : 8.w ,
-                            right: context.locale.languageCode == 'ar' ? category.order == 0 ? 0.w : 8.w : 12.w,
+                            left: context.locale.languageCode == 'ar'
+                                ? 8.w
+                                : category.order == 0
+                                ? 0.w
+                                : 8.w,
+                            right: context.locale.languageCode == 'ar'
+                                ? category.order == 0
+                                      ? 0.w
+                                      : 8.w
+                                : 12.w,
                             top: 8.h,
                             bottom: 8.h,
                           ),
